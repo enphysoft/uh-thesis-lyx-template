@@ -1,0 +1,2865 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass uhthesis
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\paragraph_spacing onehalf
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+appendix
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Appendix
+\end_layout
+
+\begin_layout Section
+Hollow and Filled Unit Stem Generation Using C++ and GNU Make Utility
+\end_layout
+
+\begin_layout Section*
+Source code: 
+\family typewriter
+\series medium
+gen_blockMeshToFile-v8.tex
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "breaklines=true"
+inline false
+status collapsed
+
+\begin_layout Plain Layout
+
+// #include <iostream> #include <fstream> #include <ctype.h> #include <stdio.h>
+ #include <stdlib.h> #include <unistd.h> using namespace std;
+\end_layout
+
+\begin_layout Plain Layout
+
+int main (int argc, char **argv){   char		cylinderType, comma ; // hollow
+ (h or H) or filled (f or F)   double	Rinr = 0.5;    double	HLCx = 2.0;  
+ double	HLCy = 2.0;   double	FLCz = 3.0;    double	HLSq = 0.250;  // Half length
+ of (inner) Square    double	toMeters = 1.000;   int		nGrZ = 5;   int		Ninr
+ = 8;   char		idSp,idX, idY;
+\end_layout
+
+\begin_layout Plain Layout
+
+  std::ifstream infile("blockMesh.param");   cylinderType= 'F';   infile
+    >> Rinr		// >> comma 	    >> HLSq		// >> comma 	    >> HLCx		// >> comma
+ 	    >> HLCy		// >> comma 	    >> FLCz		// >> comma 	    >> nGrZ		// >>
+ comma     	    >> Ninr		// >> comma 	    >> toMeters		// >> comma 	   
+ >> cylinderType	// >> comma     	    >> idSp		// >> comma     	    >> idX		//
+ >> comma     	    >> idY ;         std::cout << "infile  = " << "blockMesh.param
+" << endl;   std::cout << "Rinr    = " << Rinr << endl;   std::cout << "HLSq
+    = " << HLSq << endl;         std::cout << "HLCx    = " << HLCx << endl;
+   std::cout << "HLCy    = " << HLCy << endl;     std::cout << "FLCz   
+ = " << FLCz << endl;         std::cout << "nGrZ    = " << Ninr << endl;
+           std::cout << "Ninr    = " << Ninr << endl;           std::cout
+ << "idSp    = " << idSp << endl;   std::cout << "idX     = " << idX <<
+ endl;   std::cout << "idY     = " << idY << endl;     std::cout << "toMeters
+     = " << toMeters << endl;         std::cout << "cylinderType = " <<
+ cylinderType << endl;     double Rmid = (HLCx + Rinr)/ 2.0 ;    int Nx,
+ Ny, Nz, Notr, Nvrt; 
+\end_layout
+
+\begin_layout Plain Layout
+
+  Notr = int(Rmid / Rinr + 0.5) * Ninr;   Nvrt = int(FLCz / Rmid + 0.5) *
+ Ninr *3;    Nz   = Nvrt;    Nx   = Ninr;   Ny   = Ninr;        // BEGIN:
+ input arguments    int  c, index, aflag = 0, bflag = 0;    char *cvalue
+ = NULL;   opterr = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+  ofstream outfile;   if      (cylinderType == 'F') {outfile.open("blockMeshDict_
+filled"); std::cout << "outfile = " << "blockMeshDict_filled" << endl;}
+   else if (cylinderType == 'H') {outfile.open("blockMeshDict_hollow"); std::cout
+ << "outfile = " << "blockMeshDict_hollow" << endl;}   else            
+              {std::cout << "cylinderType is of error.
+ " << endl; return(1); }      outfile << " ";   double vtx[82][3] ;    double
+ Zero		 = 0.000000000000000f;   double cos60		 = 0.500000000000000, sin60
+   = 0.866025403784439	;   double cos30		 = sin60	    , sin30   = cos60			;
+   double cos45		 = 0.707106781186548, sin45   = cos45			;     double cos22p5	
+ = 0.923879532511287, sin22p5 = 0.382683432365090	;   double Rinr45		 = Rinr
+ * cos45 ;   double RinrC60	 = Rinr * cos60 ;   double RinrS60	 = Rinr *
+ sin60 ;   double RinrC22h	 = Rinr * cos22p5 ;   double RinrS22h	 = Rinr
+ * sin22p5 ;   double Rmid45		 = Rmid * cos45 ;   
+\end_layout
+
+\begin_layout Plain Layout
+
+  /* HEADER */   outfile << "FoamFile" << endl ;   outfile << "{" << endl
+ ;   outfile << "    version     2.0;"  << endl;   outfile << "    format
+      ascii;"  << endl;   outfile << "    class       dictionary;"  << endl;
+   outfile << "    object      blockMeshDict;"  << endl;   outfile << "}"
+  << endl << endl;   outfile << "convertToMeters " << toMeters<< ";" <<
+ endl ;     /* VERTICIES  */
+\end_layout
+
+\begin_layout Plain Layout
+
+  vtx[0][0]  = Rinr	  ; vtx[0][1] = Zero	    ; vtx[0][2]  = Zero;   vtx[1][0]
+  = Rinr45	  ; vtx[1][1] = Rinr45	    ; vtx[1][2]  = Zero;   vtx[2][0] 
+ = Zero	  ; vtx[2][1] = Rinr	    ; vtx[2][2]  = Zero;    vtx[3][0]  =-Rinr45	
+  ; vtx[3][1] = Rinr45	    ; vtx[3][2]  = Zero;   vtx[4][0]  =-vtx[0][0]
+  ; vtx[4][1] =-vtx[0][1]   ; vtx[0][2]  = Zero;   vtx[5][0]  =-vtx[1][0]
+  ; vtx[5][1] =-vtx[1][1]   ; vtx[1][2]  = Zero;   vtx[6][0]  =-vtx[2][0]
+  ; vtx[6][1] =-vtx[2][1]   ; vtx[2][2]  = Zero;   vtx[7][0]  =-vtx[3][0]
+  ; vtx[7][1] =-vtx[3][1]   ; vtx[3][2]  = Zero;      vtx[8 ][0] = Rmid	
+  ; vtx[8 ][1] = Zero	    ; vtx[8 ][2] = Zero;   vtx[9 ][0] = Rmid45	  ;
+ vtx[9 ][1] = Rmid45	    ; vtx[9 ][2] = Zero;   vtx[10][0] = Zero	  ; vtx[10][1]
+ = Rmid	    ; vtx[10][2] = Zero;    vtx[11][0] =-Rmid45	  ; vtx[11][1] =
+ Rmid45	    ; vtx[11][2] = Zero;   vtx[12][0] =-vtx[8 ][0] ; vtx[12][1]
+ =-vtx[8 ][1] ; vtx[12][2] = Zero;   vtx[13][0] =-vtx[9 ][0] ; vtx[13][1]
+ =-vtx[9 ][1] ; vtx[13][2] = Zero;   vtx[14][0] =-vtx[10][0] ; vtx[14][1]
+ =-vtx[10][1] ; vtx[14][2] = Zero;   vtx[15][0] =-vtx[11][0] ; vtx[15][1]
+ =-vtx[11][1] ; vtx[15][2] = Zero;      vtx[16][0] = HLCx	  ; vtx[16][1]
+ = Zero	    ; vtx[16][2] = Zero;   vtx[17][0] = HLCx	  ; vtx[17][1] = Rmid45	
+    ; vtx[17][2] = Zero;       vtx[18][0] = Rmid45	  ; vtx[18][1] = HLCy	
+    ; vtx[18][2] = Zero;   vtx[19][0] = Zero	  ; vtx[19][1] = HLCy	    ;
+ vtx[19][2] = Zero;     vtx[20][0] =-Rmid45 	  ; vtx[20][1] = HLCy	    ;
+ vtx[20][2] = Zero;         vtx[21][0] =-HLCx 	  ; vtx[21][1] = Rmid45	
+    ; vtx[21][2] = Zero;              vtx[22][0] =-vtx[16][0] ; vtx[22][1]
+ =-vtx[16][1] ; vtx[22][2] = Zero;           vtx[23][0] =-vtx[17][0] ; vtx[23][1
+] =-vtx[17][1] ; vtx[23][2] = Zero;           vtx[24][0] =-vtx[18][0] ;
+ vtx[24][1] =-vtx[18][1] ; vtx[24][2] = Zero;             vtx[25][0] =-vtx[19][0
+] ; vtx[25][1] =-vtx[19][1] ; vtx[25][2] = Zero;             vtx[26][0]
+ =-vtx[20][0] ; vtx[26][1] =-vtx[20][1] ; vtx[26][2] = Zero;           
+  vtx[27][0] =-vtx[21][0] ; vtx[27][1] =-vtx[21][1] ; vtx[27][2] = Zero;
+                vtx[28][0] = HLCx	  ; vtx[28][1] = HLCy       ; vtx[28][2]
+ = Zero;             vtx[29][0] =-HLCx	  ; vtx[29][1] = HLCy       ; vtx[29][2]
+ = Zero;             vtx[30][0] =-HLCx	  ; vtx[30][1] =-HLCy       ; vtx[30][2]
+ = Zero;             vtx[31][0] = HLCx	  ; vtx[31][1] =-HLCy       ; vtx[31][2]
+ = Zero;                  for (int k=0 ; k<32 ; ++k){     vtx[32+k][0] =
+ vtx[k][0];     vtx[32+k][1] = vtx[k][1];     vtx[32+k][2] = FLCz;   }
+\end_layout
+
+\begin_layout Plain Layout
+
+  outfile << "vertices ( " << endl;    for (int i = 0; i < 64 ; ++i ){ 
+    outfile << "    (" << vtx[i][0] <<" "<< vtx[i][1] <<" "<< vtx[i][2]
+ <<")
+\backslash
+t
+\backslash
+t
+\backslash
+t //"<<i<<  endl;    }
+\end_layout
+
+\begin_layout Plain Layout
+
+     //  for a filled cylinder	// hollow (h or H) or filled (f or F)   //
+    if ( cylinderType == 'F') {     // cout << cylinderType  << endl  ;
+     vtx[64][0] = HLSq ; vtx[64][1] = Zero ; vtx[64][2] = Zero;        
+         vtx[65][0] = HLSq ; vtx[65][1] = HLSq ; vtx[65][2] = Zero;    
+             vtx[66][0] = Zero ; vtx[66][1] = HLSq ; vtx[66][2] = Zero;
+                 vtx[67][0] =-HLSq ; vtx[67][1] = HLSq ; vtx[67][2] = Zero;
+                 vtx[68][0] =-HLSq ; vtx[68][1] = Zero ; vtx[68][2] = Zero;
+                 vtx[69][0] =-HLSq ; vtx[69][1] =-HLSq ; vtx[69][2] = Zero;
+                 vtx[70][0] = Zero ; vtx[70][1] =-HLSq ; vtx[70][2] = Zero;
+                 vtx[71][0] = HLSq ; vtx[71][1] =-HLSq ; vtx[71][2] = Zero;
+                 //      vtx[72][0] = HLSq ; vtx[72][1] = Zero ; vtx[72][2]
+ = FLCz;      vtx[73][0] = HLSq ; vtx[73][1] = HLSq ; vtx[73][2] = FLCz;
+                 vtx[74][0] = Zero ; vtx[74][1] = HLSq ; vtx[74][2] = FLCz;
+                 vtx[75][0] =-HLSq ; vtx[75][1] = HLSq ; vtx[75][2] = FLCz;
+                 vtx[76][0] =-HLSq ; vtx[76][1] = Zero ; vtx[76][2] = FLCz;
+                 vtx[77][0] =-HLSq ; vtx[77][1] =-HLSq ; vtx[77][2] = FLCz;
+                 vtx[78][0] = Zero ; vtx[78][1] =-HLSq ; vtx[78][2] = FLCz;
+                 vtx[79][0] = HLSq ; vtx[79][1] =-HLSq ; vtx[79][2] = FLCz;
+                      vtx[80][0] = Zero ; vtx[80][1] = Zero ; vtx[80][2]
+ = Zero;                 vtx[81][0] = Zero ; vtx[81][1] = Zero ; vtx[81][2]
+ = FLCz;                 //      outfile << "    // " << "Inner Square "
+ << endl;      for (int i = 64; i < 82 ; ++i ){       outfile << "    ("
+ << vtx[i][0] <<" "<< vtx[i][1] <<" "<< vtx[i][2] <<")
+\backslash
+t
+\backslash
+t
+\backslash
+t //"<<i<<  endl;      }   };    outfile << ");   " << endl << endl;   
+    /* BLOCKS  */   //      int blockBtm[20][4]={     { 0,  8,  9, 1}, {
+ 1,  9, 10, 2}, { 2, 10, 11, 3}, { 3, 11, 12, 4},     { 4, 12, 13, 5}, {
+ 5, 13, 14, 6}, { 6, 14, 15, 7}, { 7, 15,  8, 0},     { 8,16,17, 9}, { 9,17,28,1
+8}, {10, 9,18,19},     {11,10,19,20}, {21,11,20,29}, {11,21,22,12},    
+ {23,13,12,22}, {13,23,30,24}, {13,24,25,14},     {14,25,26,15}, {15,26,31,27},
+ {15,27,16, 8}   };   //   outfile << "blocks ( " << endl;    for (int i=0
+ ; i<20; ++i ) {     outfile << "    hex (";     for (int j=0 ; j<4; ++j
+ ){outfile << blockBtm[i][j] << " ";};      for (int j=0 ; j<4; ++j ){outfile
+ << " " << blockBtm[i][j] + 32 ;};     outfile << ")";     outfile << "
+ ("<< Nx <<" "<< Ny << " "	<< Nz << ") ";     outfile << "simpleGrading
+ (1 1 " << nGrZ << " )"<< endl; //  nGrZ   };   //    if ( cylinderType
+ == 'F') {     outfile << "    //  " << endl;      outfile << "    hex (
+ 0  1 65 64 32 33 73 72)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading
+ (1 1 " << nGrZ << " )" << endl;      outfile << "    hex ( 1  2 66 65 33
+ 34 74 73)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " <<
+ nGrZ << " )" << endl;      outfile << "    hex ( 2  3 67 66 34 35 75 74)
+  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << "
+ )" << endl;      outfile << "    hex ( 3  4 68 67 35 36 76 75)  (" << Nx<<"
+ "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )" << endl;
+      outfile << "    hex ( 4  5 69 68 36 37 77 76)  (" << Nx<<" "<< Ny<<"
+ "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )" << endl;      outfile
+ << "    hex ( 5  6 70 69 37 38 78 77)  (" << Nx<<" "<< Ny<<" "<< Nz  <<
+ ")  simpleGrading (1 1 " << nGrZ << " )" << endl;      outfile << "   
+ hex ( 6  7 71 70 38 39 79 78)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGradi
+ng (1 1 " << nGrZ << " )" << endl;      outfile << "    hex ( 7  0 64 71
+ 39 32 72 79)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 "
+ << nGrZ << " )" << endl; //     outfile << "    // Four squared columns
+ of the inner square.					   " << endl;      outfile << "    hex (80 64 65
+ 66 81 72 73 74)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1
+ 1 " << nGrZ << " )" << endl;      outfile << "    hex (80 66 67 68 81 74
+ 75 76)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ
+ << " )" << endl;      outfile << "    hex (80 68 69 70 81 76 77 78)  ("
+ << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )"
+ << endl;      outfile << "    hex (80 70 71 64 81 78 79 72)  (" << Nx<<"
+ "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )" << endl;
+    }   //    outfile << "  );   " << endl << endl;       /* EDGES */  
+ double arcA[8][3], arcB[8][3], arcC[8][3], arcD[8][3];    arcA[0][0]  =
+ RinrC22h ; arcA[0][1] = RinrS22h ; arcA[0][2]  = Zero;   arcA[1][0]  =
+ RinrS22h ; arcA[1][1] = RinrC22h ; arcA[1][2]  = Zero;   arcA[2][0]  =-RinrS22h
+ ; arcA[2][1] = RinrC22h ; arcA[2][2]  = Zero;    arcA[3][0]  =-RinrC22h
+ ; arcA[3][1] = RinrS22h ; arcA[3][2]  = Zero;   arcA[4][0]  =-RinrC22h
+ ; arcA[4][1] =-RinrS22h ; arcA[0][2]  = Zero;   arcA[5][0]  =-RinrS22h
+ ; arcA[5][1] =-RinrC22h ; arcA[1][2]  = Zero;   arcA[6][0]  = RinrS22h
+ ; arcA[6][1] =-RinrC22h ; arcA[2][2]  = Zero;   arcA[7][0]  = RinrC22h
+ ; arcA[7][1] =-RinrS22h ; arcA[3][2]  = Zero;      outfile << "edges (
+ " << endl;    for (int i=0 ; i<8 ; ++i){     for (int j=0 ; j<3 ; ++j){
+       arcB[i][0] = arcA[i][0] * Rmid / Rinr ;       arcB[i][1] = arcA[i][1]
+ * Rmid / Rinr ;       arcB[i][2] = Zero ;             arcC[i][0] = arcA[i][0];
+        arcC[i][1] = arcA[i][1];        arcC[i][2] = FLCz;        arcD[i][0]
+ = arcB[i][0];       arcD[i][1] = arcB[i][1];       arcD[i][2] = FLCz; 
+     };   };
+\end_layout
+
+\begin_layout Plain Layout
+
+  int k;
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (int i=0 ; i<8 ; ++i){     outfile << "    arc " << i << " " << (i+1)%8
+ << " (";     for (int j=0 ; j<3 ; ++j){       outfile << arcA[i][j];  
+     if (j!=2) outfile << " ";     };outfile<<")"<<endl;   };outfile<<"
+    // " <<endl;        for (int i=0 ; i<8 ; ++i){     k = i + 8 ;     
+ if   ((k+1)%8 == 0 ){outfile<< "    arc " << k << " " << (k+1)-8 << " (";}
+     else {outfile << "    arc " << i+8 << " " << (i+8+1)%16 << " (";} 
+           for (int j=0 ; j<3 ; ++j){       outfile << arcB[i][j];     
+  if (j!=2) outfile << " ";     };outfile<<")"<<endl;    };outfile<<"  
+  // " <<endl;      for (int i=0 ; i<8 ; ++i){     k = i + 8*4;     if (
+ (k+1)%8 == 0 ){       outfile << "    arc " << k << " " << (k+1)-8  <<
+ " (";     }     else {       outfile << "    arc " << k << " " << (k+1)%40
+ << " (";     }       // outfile << "    arc " << i+8*2 << " " << (i+8*2+1)%24
+ << " (";     for (int j=0 ; j<3 ; ++j){       outfile << arcC[i][j];  
+     if (j!=2) outfile << " ";     };outfile<<")"<<endl;    };outfile<<"
+    // " <<endl;        for (int i=0 ; i<8 ; ++i){     k = i + 8*5;    
+ if ( (k+1)%8 == 0 ){       outfile << "    arc " << k << " " << (k+1)-8
+  << " (";     }     else {       outfile << "    arc " << k << " " << (k+1)%48
+ << " (";     }       // outfile << "    arc " << i+8*3 << " " << (i+8*3+1)%32
+ << " (";     for (int j=0 ; j<3 ; ++j){       outfile << arcD[i][j];  
+     if (j!=2) outfile << " ";     };outfile<<")"<<endl;    };   outfile
+ << "  );   " << endl << endl;       /* BOUNDARY */   // cout <<idSp<<idX<<idY;
+   outfile << "boundary (" <<endl ;   outfile << "    LEFT" <<idSp<<cylinderType
+<<idX<<idY;   outfile << " { type patch; faces ( (23 30 62 55) (22 23 55
+ 54) (21 22 54 53) (29 21 53 61) ); }"  <<endl ;            outfile << "
+    RGHT" <<idSp<<cylinderType<<idX<<idY;   outfile << " { type patch; faces
+ ( (31 27 59 63) (27 16 48 59) (16 17 49 48) (17 28 60 49) ); }"  <<endl
+ ;          outfile << "    FRNT" <<idSp<<cylinderType<<idX<<idY;   outfile
+ << " { type patch; faces ( (30 24 56 62) (24 25 57 56) (25 26 58 57) (26
+ 31 63 58) ); }"  <<endl ;            outfile << "    BACK" <<idSp<<cylinderType
+<<idX<<idY;   outfile << " { type patch; faces ( (20 29 61 52) (19 20 52
+ 51) (18 19 51 50) (28 18 50 60) ); }"  <<endl ;            outfile << endl
+ ;       outfile << "    DOWN" <<idSp<<cylinderType<<idX<<idY;   outfile
+ << " { type patch; faces ( ( 0  1  9  8) ( 1  2 10  9) ( 2  3 11 10) (
+ 3  4 12 11) " <<endl ;     outfile << "                 ( 4  5 13 12) (
+ 5  6 14 13) ( 6  7 15 14) ( 0  8 15  7) " <<endl ;   outfile << "     
+            (16  8  9 17) (17  9 18 28) ( 9 10 19 18)" <<endl ;     outfile
+ << "                 (10 11 20 19) (11 21 29 20) (11 12 22 21)" <<endl
+ ;    outfile << "                 (12 13 23 22) (13 24 30 23) (13 14 25
+ 24)" <<endl ;    outfile << "                 (14 15 26 25) (15 27 31 26)
+ (15  8 16 27)" <<endl ;    if ( cylinderType == 'F') {   outfile << " 
+                // 						          " <<endl ;    outfile << "          
+       (0 64 65 1) (1 65 66 2) (2 66 67 3) (3 67 68 4)	          " <<endl
+ ;    outfile << "                 (4 68 69 5) (5 69 70 6) (6 70 71 7) (7
+ 71 64 0)	          " <<endl ;    outfile << "                 // 						
+          " <<endl ;    outfile << "                 (80 66 65 64) (80 68
+ 67 66) (80 70 69 68) (80 64 71 70)    " <<endl ;    }   outfile << "  
+              ); }"  <<endl<<endl ;            outfile << "    ATOP" <<idSp<<cyl
+inderType<<idX<<idY;   outfile << " { type patch; faces ( (32 40 41 33)
+ (33 41 42 34) (34 42 43 35) (35 43 44 36) " <<endl ;      outfile << "
+                 (36 44 45 37) (37 45 46 38) (38 46 47 39) (32 39 47 40)
+ " <<endl ;   outfile << "                 (48 49 41 40) (49 60 50 41) (41
+ 50 51 42)" <<endl ;    outfile << "                 (42 51 52 43) (43 52
+ 61 53) (43 53 54 44)" <<endl ;    outfile << "                 (44 54 55
+ 45) (45 55 62 56) (45 56 57 46)" <<endl ;    outfile << "             
+    (46 57 58 47) (47 58 63 59) (47 59 48 40)" <<endl ;       if ( cylinderType
+ == 'F') {   outfile << "                 // 						          " <<endl ;
+          outfile << "                 (32 33 73 72) (33 34 74 73) (34 35
+ 75 74) (35 36 76 75) " <<endl ;          outfile << "                 (36
+ 37 77 76) (37 38 78 77) (38 39 79 78) (39 32 72 79) " <<endl ;        
+  outfile << "                 // 						       " <<endl ;          outfile
+ << "                 (81 72 73 74) (81 74 75 76) (81 76 77 78) (81 78 79
+ 72) " <<endl ;          }    outfile << "                 ); }"  <<endl
+ <<endl ;      
+\end_layout
+
+\begin_layout Plain Layout
+
+  if ( cylinderType == 'H') {   outfile << "    HOLE"  <<idSp<<cylinderType<<idX
+<<idY;   outfile << " { type patch; faces ( (32 33 1 0) (33 34 1 2) (34
+ 35 2 3) (35 36 3 4) " <<endl ;  //    (  0 7)   outfile << "          
+  (36 37 4 5) (37 38 5 6) (38 39 6 7) (39 32 7 0) )" <<endl ;       outfile
+ << "         ;}"  <<endl ;       }     outfile << ");   " << endl<< endl;
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+        /* MERGEPATCHPAIRS */   outfile <<"mergePatchPairs" <<endl;   outfile
+ <<"("<<endl;   outfile <<");"<<endl<<endl;   outfile <<  "// ******************
+******************************************************* //
+\backslash
+n"<<endl;
+\end_layout
+
+\begin_layout Plain Layout
+
+  outfile.close();   return 0;} // 
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <iostream> 
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <fstream> 
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <ctype.h> 
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <stdio.h> 
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <stdlib.h> 
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <unistd.h> 
+\end_layout
+
+\begin_layout Plain Layout
+
+using namespace std;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+int main (int argc, char **argv){
+\end_layout
+
+\begin_layout Plain Layout
+
+  char		cylinderType, comma ; // hollow (h or H) or filled (f or F)   
+\end_layout
+
+\begin_layout Plain Layout
+
+double	Rinr = 0.5;    double	HLCx = 2.0;   double	HLCy = 2.0;   double	FLCz
+ = 3.0;    double	HLSq = 0.250;  // Half length of (inner) Square    double	toMete
+rs = 1.000;   int		nGrZ = 5;   int		Ninr = 8;   char		idSp,idX, idY;
+\end_layout
+
+\begin_layout Plain Layout
+
+  std::ifstream infile("blockMesh.param");   cylinderType= 'F';   infile
+    >> Rinr		// >> comma 	    >> HLSq		// >> comma 	    >> HLCx		// >> comma
+ 	    >> HLCy		// >> comma 	    >> FLCz		// >> comma 	    >> nGrZ		// >>
+ comma     	    >> Ninr		// >> comma 	    >> toMeters		// >> comma 	   
+ >> cylinderType	// >> comma     	    >> idSp		// >> comma     	    >> idX		//
+ >> comma     	    >> idY ;         std::cout << "infile  = " << "blockMesh.param
+" << endl;   std::cout << "Rinr    = " << Rinr << endl;   std::cout << "HLSq
+    = " << HLSq << endl;         std::cout << "HLCx    = " << HLCx << endl;
+   std::cout << "HLCy    = " << HLCy << endl;     std::cout << "FLCz   
+ = " << FLCz << endl;         std::cout << "nGrZ    = " << Ninr << endl;
+           std::cout << "Ninr    = " << Ninr << endl;           std::cout
+ << "idSp    = " << idSp << endl;   std::cout << "idX     = " << idX <<
+ endl;   std::cout << "idY     = " << idY << endl;     std::cout << "toMeters
+     = " << toMeters << endl;         std::cout << "cylinderType = " <<
+ cylinderType << endl;     double Rmid = (HLCx + Rinr)/ 2.0 ;    int Nx,
+ Ny, Nz, Notr, Nvrt; 
+\end_layout
+
+\begin_layout Plain Layout
+
+  Notr = int(Rmid / Rinr + 0.5) * Ninr;   Nvrt = int(FLCz / Rmid + 0.5) *
+ Ninr *3;    Nz   = Nvrt;    Nx   = Ninr;   Ny   = Ninr;        // BEGIN:
+ input arguments    int  c, index, aflag = 0, bflag = 0;    char *cvalue
+ = NULL;   opterr = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+  ofstream outfile;   if      (cylinderType == 'F') {outfile.open("blockMeshDict_
+filled"); std::cout << "outfile = " << "blockMeshDict_filled" << endl;}
+   else if (cylinderType == 'H') {outfile.open("blockMeshDict_hollow"); std::cout
+ << "outfile = " << "blockMeshDict_hollow" << endl;}   else            
+              {std::cout << "cylinderType is of error.
+ " << endl; return(1); }      outfile << " ";   double vtx[82][3] ;    double
+ Zero		 = 0.000000000000000f;   double cos60		 = 0.500000000000000, sin60
+   = 0.866025403784439	;   double cos30		 = sin60	    , sin30   = cos60			;
+   double cos45		 = 0.707106781186548, sin45   = cos45			;     double cos22p5	
+ = 0.923879532511287, sin22p5 = 0.382683432365090	;   double Rinr45		 = Rinr
+ * cos45 ;   double RinrC60	 = Rinr * cos60 ;   double RinrS60	 = Rinr *
+ sin60 ;   double RinrC22h	 = Rinr * cos22p5 ;   double RinrS22h	 = Rinr
+ * sin22p5 ;   double Rmid45		 = Rmid * cos45 ;   
+\end_layout
+
+\begin_layout Plain Layout
+
+  /* HEADER */   outfile << "FoamFile" << endl ;   outfile << "{" << endl
+ ;   outfile << "    version     2.0;"  << endl;   outfile << "    format
+      ascii;"  << endl;   outfile << "    class       dictionary;"  << endl;
+   outfile << "    object      blockMeshDict;"  << endl;   outfile << "}"
+  << endl << endl;   outfile << "convertToMeters " << toMeters<< ";" <<
+ endl ;     /* VERTICIES  */
+\end_layout
+
+\begin_layout Plain Layout
+
+  vtx[0][0]  = Rinr	  ; vtx[0][1] = Zero	    ; vtx[0][2]  = Zero;   vtx[1][0]
+  = Rinr45	  ; vtx[1][1] = Rinr45	    ; vtx[1][2]  = Zero;   vtx[2][0] 
+ = Zero	  ; vtx[2][1] = Rinr	    ; vtx[2][2]  = Zero;    vtx[3][0]  =-Rinr45	
+  ; vtx[3][1] = Rinr45	    ; vtx[3][2]  = Zero;   vtx[4][0]  =-vtx[0][0]
+  ; vtx[4][1] =-vtx[0][1]   ; vtx[0][2]  = Zero;   vtx[5][0]  =-vtx[1][0]
+  ; vtx[5][1] =-vtx[1][1]   ; vtx[1][2]  = Zero;   vtx[6][0]  =-vtx[2][0]
+  ; vtx[6][1] =-vtx[2][1]   ; vtx[2][2]  = Zero;   vtx[7][0]  =-vtx[3][0]
+  ; vtx[7][1] =-vtx[3][1]   ; vtx[3][2]  = Zero;      vtx[8 ][0] = Rmid	
+  ; vtx[8 ][1] = Zero	    ; vtx[8 ][2] = Zero;   vtx[9 ][0] = Rmid45	  ;
+ vtx[9 ][1] = Rmid45	    ; vtx[9 ][2] = Zero;   vtx[10][0] = Zero	  ; vtx[10][1]
+ = Rmid	    ; vtx[10][2] = Zero;    vtx[11][0] =-Rmid45	  ; vtx[11][1] =
+ Rmid45	    ; vtx[11][2] = Zero;   vtx[12][0] =-vtx[8 ][0] ; vtx[12][1]
+ =-vtx[8 ][1] ; vtx[12][2] = Zero;   vtx[13][0] =-vtx[9 ][0] ; vtx[13][1]
+ =-vtx[9 ][1] ; vtx[13][2] = Zero;   vtx[14][0] =-vtx[10][0] ; vtx[14][1]
+ =-vtx[10][1] ; vtx[14][2] = Zero;   vtx[15][0] =-vtx[11][0] ; vtx[15][1]
+ =-vtx[11][1] ; vtx[15][2] = Zero;      vtx[16][0] = HLCx	  ; vtx[16][1]
+ = Zero	    ; vtx[16][2] = Zero;   vtx[17][0] = HLCx	  ; vtx[17][1] = Rmid45	
+    ; vtx[17][2] = Zero;       vtx[18][0] = Rmid45	  ; vtx[18][1] = HLCy	
+    ; vtx[18][2] = Zero;   vtx[19][0] = Zero	  ; vtx[19][1] = HLCy	    ;
+ vtx[19][2] = Zero;     vtx[20][0] =-Rmid45 	  ; vtx[20][1] = HLCy	    ;
+ vtx[20][2] = Zero;         vtx[21][0] =-HLCx 	  ; vtx[21][1] = Rmid45	
+    ; vtx[21][2] = Zero;              vtx[22][0] =-vtx[16][0] ; vtx[22][1]
+ =-vtx[16][1] ; vtx[22][2] = Zero;           vtx[23][0] =-vtx[17][0] ; vtx[23][1
+] =-vtx[17][1] ; vtx[23][2] = Zero;           vtx[24][0] =-vtx[18][0] ;
+ vtx[24][1] =-vtx[18][1] ; vtx[24][2] = Zero;             vtx[25][0] =-vtx[19][0
+] ; vtx[25][1] =-vtx[19][1] ; vtx[25][2] = Zero;             vtx[26][0]
+ =-vtx[20][0] ; vtx[26][1] =-vtx[20][1] ; vtx[26][2] = Zero;           
+  vtx[27][0] =-vtx[21][0] ; vtx[27][1] =-vtx[21][1] ; vtx[27][2] = Zero;
+                vtx[28][0] = HLCx	  ; vtx[28][1] = HLCy       ; vtx[28][2]
+ = Zero;             vtx[29][0] =-HLCx	  ; vtx[29][1] = HLCy       ; vtx[29][2]
+ = Zero;             vtx[30][0] =-HLCx	  ; vtx[30][1] =-HLCy       ; vtx[30][2]
+ = Zero;             vtx[31][0] = HLCx	  ; vtx[31][1] =-HLCy       ; vtx[31][2]
+ = Zero;                  for (int k=0 ; k<32 ; ++k){     vtx[32+k][0] =
+ vtx[k][0];     vtx[32+k][1] = vtx[k][1];     vtx[32+k][2] = FLCz;   }
+\end_layout
+
+\begin_layout Plain Layout
+
+  outfile << "vertices ( " << endl;    for (int i = 0; i < 64 ; ++i ){ 
+    outfile << "    (" << vtx[i][0] <<" "<< vtx[i][1] <<" "<< vtx[i][2]
+ <<")
+\backslash
+t
+\backslash
+t
+\backslash
+t //"<<i<<  endl;    }
+\end_layout
+
+\begin_layout Plain Layout
+
+     //  for a filled cylinder	// hollow (h or H) or filled (f or F)   //
+    if ( cylinderType == 'F') {     // cout << cylinderType  << endl  ;
+     vtx[64][0] = HLSq ; vtx[64][1] = Zero ; vtx[64][2] = Zero;        
+         vtx[65][0] = HLSq ; vtx[65][1] = HLSq ; vtx[65][2] = Zero;    
+             vtx[66][0] = Zero ; vtx[66][1] = HLSq ; vtx[66][2] = Zero;
+                 vtx[67][0] =-HLSq ; vtx[67][1] = HLSq ; vtx[67][2] = Zero;
+                 vtx[68][0] =-HLSq ; vtx[68][1] = Zero ; vtx[68][2] = Zero;
+                 vtx[69][0] =-HLSq ; vtx[69][1] =-HLSq ; vtx[69][2] = Zero;
+                 vtx[70][0] = Zero ; vtx[70][1] =-HLSq ; vtx[70][2] = Zero;
+                 vtx[71][0] = HLSq ; vtx[71][1] =-HLSq ; vtx[71][2] = Zero;
+                 //      vtx[72][0] = HLSq ; vtx[72][1] = Zero ; vtx[72][2]
+ = FLCz;      vtx[73][0] = HLSq ; vtx[73][1] = HLSq ; vtx[73][2] = FLCz;
+                 vtx[74][0] = Zero ; vtx[74][1] = HLSq ; vtx[74][2] = FLCz;
+                 vtx[75][0] =-HLSq ; vtx[75][1] = HLSq ; vtx[75][2] = FLCz;
+                 vtx[76][0] =-HLSq ; vtx[76][1] = Zero ; vtx[76][2] = FLCz;
+                 vtx[77][0] =-HLSq ; vtx[77][1] =-HLSq ; vtx[77][2] = FLCz;
+                 vtx[78][0] = Zero ; vtx[78][1] =-HLSq ; vtx[78][2] = FLCz;
+                 vtx[79][0] = HLSq ; vtx[79][1] =-HLSq ; vtx[79][2] = FLCz;
+                      vtx[80][0] = Zero ; vtx[80][1] = Zero ; vtx[80][2]
+ = Zero;                 vtx[81][0] = Zero ; vtx[81][1] = Zero ; vtx[81][2]
+ = FLCz;                 //      outfile << "    // " << "Inner Square "
+ << endl;      for (int i = 64; i < 82 ; ++i ){       outfile << "    ("
+ << vtx[i][0] <<" "<< vtx[i][1] <<" "<< vtx[i][2] <<")
+\backslash
+t
+\backslash
+t
+\backslash
+t //"<<i<<  endl;      }   };    outfile << ");   " << endl << endl;   
+    /* BLOCKS  */   //      int blockBtm[20][4]={     { 0,  8,  9, 1}, {
+ 1,  9, 10, 2}, { 2, 10, 11, 3}, { 3, 11, 12, 4},     { 4, 12, 13, 5}, {
+ 5, 13, 14, 6}, { 6, 14, 15, 7}, { 7, 15,  8, 0},     { 8,16,17, 9}, { 9,17,28,1
+8}, {10, 9,18,19},     {11,10,19,20}, {21,11,20,29}, {11,21,22,12},    
+ {23,13,12,22}, {13,23,30,24}, {13,24,25,14},     {14,25,26,15}, {15,26,31,27},
+ {15,27,16, 8}   };   //   outfile << "blocks ( " << endl;    for (int i=0
+ ; i<20; ++i ) {     outfile << "    hex (";     for (int j=0 ; j<4; ++j
+ ){outfile << blockBtm[i][j] << " ";};      for (int j=0 ; j<4; ++j ){outfile
+ << " " << blockBtm[i][j] + 32 ;};     outfile << ")";     outfile << "
+ ("<< Nx <<" "<< Ny << " "	<< Nz << ") ";     outfile << "simpleGrading
+ (1 1 " << nGrZ << " )"<< endl; //  nGrZ   };   //    if ( cylinderType
+ == 'F') {     outfile << "    //  " << endl;      outfile << "    hex (
+ 0  1 65 64 32 33 73 72)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading
+ (1 1 " << nGrZ << " )" << endl;      outfile << "    hex ( 1  2 66 65 33
+ 34 74 73)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " <<
+ nGrZ << " )" << endl;      outfile << "    hex ( 2  3 67 66 34 35 75 74)
+  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << "
+ )" << endl;      outfile << "    hex ( 3  4 68 67 35 36 76 75)  (" << Nx<<"
+ "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )" << endl;
+      outfile << "    hex ( 4  5 69 68 36 37 77 76)  (" << Nx<<" "<< Ny<<"
+ "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )" << endl;      outfile
+ << "    hex ( 5  6 70 69 37 38 78 77)  (" << Nx<<" "<< Ny<<" "<< Nz  <<
+ ")  simpleGrading (1 1 " << nGrZ << " )" << endl;      outfile << "   
+ hex ( 6  7 71 70 38 39 79 78)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGradi
+ng (1 1 " << nGrZ << " )" << endl;      outfile << "    hex ( 7  0 64 71
+ 39 32 72 79)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 "
+ << nGrZ << " )" << endl; //     outfile << "    // Four squared columns
+ of the inner square.					   " << endl;      outfile << "    hex (80 64 65
+ 66 81 72 73 74)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1
+ 1 " << nGrZ << " )" << endl;      outfile << "    hex (80 66 67 68 81 74
+ 75 76)  (" << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ
+ << " )" << endl;      outfile << "    hex (80 68 69 70 81 76 77 78)  ("
+ << Nx<<" "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )"
+ << endl;      outfile << "    hex (80 70 71 64 81 78 79 72)  (" << Nx<<"
+ "<< Ny<<" "<< Nz  << ")  simpleGrading (1 1 " << nGrZ << " )" << endl;
+    }   //    outfile << "  );   " << endl << endl;       /* EDGES */  
+ double arcA[8][3], arcB[8][3], arcC[8][3], arcD[8][3];    arcA[0][0]  =
+ RinrC22h ; arcA[0][1] = RinrS22h ; arcA[0][2]  = Zero;   arcA[1][0]  =
+ RinrS22h ; arcA[1][1] = RinrC22h ; arcA[1][2]  = Zero;   arcA[2][0]  =-RinrS22h
+ ; arcA[2][1] = RinrC22h ; arcA[2][2]  = Zero;    arcA[3][0]  =-RinrC22h
+ ; arcA[3][1] = RinrS22h ; arcA[3][2]  = Zero;   arcA[4][0]  =-RinrC22h
+ ; arcA[4][1] =-RinrS22h ; arcA[0][2]  = Zero;   arcA[5][0]  =-RinrS22h
+ ; arcA[5][1] =-RinrC22h ; arcA[1][2]  = Zero;   arcA[6][0]  = RinrS22h
+ ; arcA[6][1] =-RinrC22h ; arcA[2][2]  = Zero;   arcA[7][0]  = RinrC22h
+ ; arcA[7][1] =-RinrS22h ; arcA[3][2]  = Zero;      outfile << "edges (
+ " << endl;    for (int i=0 ; i<8 ; ++i){     for (int j=0 ; j<3 ; ++j){
+       arcB[i][0] = arcA[i][0] * Rmid / Rinr ;       arcB[i][1] = arcA[i][1]
+ * Rmid / Rinr ;       arcB[i][2] = Zero ;             arcC[i][0] = arcA[i][0];
+        arcC[i][1] = arcA[i][1];        arcC[i][2] = FLCz;        arcD[i][0]
+ = arcB[i][0];       arcD[i][1] = arcB[i][1];       arcD[i][2] = FLCz; 
+     };   };
+\end_layout
+
+\begin_layout Plain Layout
+
+  int k;
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (int i=0 ; i<8 ; ++i){     outfile << "    arc " << i << " " << (i+1)%8
+ << " (";     for (int j=0 ; j<3 ; ++j){       outfile << arcA[i][j];  
+     if (j!=2) outfile << " ";     };outfile<<")"<<endl;   };outfile<<"
+    // " <<endl;        for (int i=0 ; i<8 ; ++i){     k = i + 8 ;     
+ if   ((k+1)%8 == 0 ){outfile<< "    arc " << k << " " << (k+1)-8 << " (";}
+     else {outfile << "    arc " << i+8 << " " << (i+8+1)%16 << " (";} 
+           for (int j=0 ; j<3 ; ++j){       outfile << arcB[i][j];     
+  if (j!=2) outfile << " ";     };outfile<<")"<<endl;    };outfile<<"  
+  // " <<endl;      for (int i=0 ; i<8 ; ++i){     k = i + 8*4;     if (
+ (k+1)%8 == 0 ){       outfile << "    arc " << k << " " << (k+1)-8  <<
+ " (";     }     else {       outfile << "    arc " << k << " " << (k+1)%40
+ << " (";     }       // outfile << "    arc " << i+8*2 << " " << (i+8*2+1)%24
+ << " (";     for (int j=0 ; j<3 ; ++j){       outfile << arcC[i][j];  
+     if (j!=2) outfile << " ";     };outfile<<")"<<endl;    };outfile<<"
+    // " <<endl;        for (int i=0 ; i<8 ; ++i){     k = i + 8*5;    
+ if ( (k+1)%8 == 0 ){       outfile << "    arc " << k << " " << (k+1)-8
+  << " (";     }     else {       outfile << "    arc " << k << " " << (k+1)%48
+ << " (";     }       // outfile << "    arc " << i+8*3 << " " << (i+8*3+1)%32
+ << " (";     for (int j=0 ; j<3 ; ++j){       outfile << arcD[i][j];  
+     if (j!=2) outfile << " ";     };outfile<<")"<<endl;    };   outfile
+ << "  );   " << endl << endl;       /* BOUNDARY */   // cout <<idSp<<idX<<idY;
+   outfile << "boundary (" <<endl ;   outfile << "    LEFT" <<idSp<<cylinderType
+<<idX<<idY;   outfile << " { type patch; faces ( (23 30 62 55) (22 23 55
+ 54) (21 22 54 53) (29 21 53 61) ); }"  <<endl ;            outfile << "
+    RGHT" <<idSp<<cylinderType<<idX<<idY;   outfile << " { type patch; faces
+ ( (31 27 59 63) (27 16 48 59) (16 17 49 48) (17 28 60 49) ); }"  <<endl
+ ;          outfile << "    FRNT" <<idSp<<cylinderType<<idX<<idY;   outfile
+ << " { type patch; faces ( (30 24 56 62) (24 25 57 56) (25 26 58 57) (26
+ 31 63 58) ); }"  <<endl ;            outfile << "    BACK" <<idSp<<cylinderType
+<<idX<<idY;   outfile << " { type patch; faces ( (20 29 61 52) (19 20 52
+ 51) (18 19 51 50) (28 18 50 60) ); }"  <<endl ;            outfile << endl
+ ;       outfile << "    DOWN" <<idSp<<cylinderType<<idX<<idY;   outfile
+ << " { type patch; faces ( ( 0  1  9  8) ( 1  2 10  9) ( 2  3 11 10) (
+ 3  4 12 11) " <<endl ;     outfile << "                 ( 4  5 13 12) (
+ 5  6 14 13) ( 6  7 15 14) ( 0  8 15  7) " <<endl ;   outfile << "     
+            (16  8  9 17) (17  9 18 28) ( 9 10 19 18)" <<endl ;     outfile
+ << "                 (10 11 20 19) (11 21 29 20) (11 12 22 21)" <<endl
+ ;    outfile << "                 (12 13 23 22) (13 24 30 23) (13 14 25
+ 24)" <<endl ;    outfile << "                 (14 15 26 25) (15 27 31 26)
+ (15  8 16 27)" <<endl ;    if ( cylinderType == 'F') {   outfile << " 
+                // 						          " <<endl ;    outfile << "          
+       (0 64 65 1) (1 65 66 2) (2 66 67 3) (3 67 68 4)	          " <<endl
+ ;    outfile << "                 (4 68 69 5) (5 69 70 6) (6 70 71 7) (7
+ 71 64 0)	          " <<endl ;    outfile << "                 // 						
+          " <<endl ;    outfile << "                 (80 66 65 64) (80 68
+ 67 66) (80 70 69 68) (80 64 71 70)    " <<endl ;    }   outfile << "  
+              ); }"  <<endl<<endl ;            outfile << "    ATOP" <<idSp<<cyl
+inderType<<idX<<idY;   outfile << " { type patch; faces ( (32 40 41 33)
+ (33 41 42 34) (34 42 43 35) (35 43 44 36) " <<endl ;      outfile << "
+                 (36 44 45 37) (37 45 46 38) (38 46 47 39) (32 39 47 40)
+ " <<endl ;   outfile << "                 (48 49 41 40) (49 60 50 41) (41
+ 50 51 42)" <<endl ;    outfile << "                 (42 51 52 43) (43 52
+ 61 53) (43 53 54 44)" <<endl ;    outfile << "                 (44 54 55
+ 45) (45 55 62 56) (45 56 57 46)" <<endl ;    outfile << "             
+    (46 57 58 47) (47 58 63 59) (47 59 48 40)" <<endl ;       if ( cylinderType
+ == 'F') {   outfile << "                 // 						          " <<endl ;
+          outfile << "                 (32 33 73 72) (33 34 74 73) (34 35
+ 75 74) (35 36 76 75) " <<endl ;          outfile << "                 (36
+ 37 77 76) (37 38 78 77) (38 39 79 78) (39 32 72 79) " <<endl ;        
+  outfile << "                 // 						       " <<endl ;          outfile
+ << "                 (81 72 73 74) (81 74 75 76) (81 76 77 78) (81 78 79
+ 72) " <<endl ;          }    outfile << "                 ); }"  <<endl
+ <<endl ;      
+\end_layout
+
+\begin_layout Plain Layout
+
+  if ( cylinderType == 'H') {   outfile << "    HOLE"  <<idSp<<cylinderType<<idX
+<<idY;   outfile << " { type patch; faces ( (32 33 1 0) (33 34 1 2) (34
+ 35 2 3) (35 36 3 4) " <<endl ;  //    (  0 7)   outfile << "          
+  (36 37 4 5) (37 38 5 6) (38 39 6 7) (39 32 7 0) )" <<endl ;       outfile
+ << "         ;}"  <<endl ;       }     outfile << ");   " << endl<< endl;
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+        /* MERGEPATCHPAIRS */   outfile <<"mergePatchPairs" <<endl;   outfile
+ <<"("<<endl;   outfile <<");"<<endl<<endl;   outfile <<  "// ******************
+******************************************************* //
+\backslash
+n"<<endl;
+\end_layout
+
+\begin_layout Plain Layout
+
+  outfile.close();   return 0;} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{my_listings-blockMesh.tex}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+Makefile
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset listings
+lstparams "language=make,numbers=left,basicstyle={\ttfamily},breaklines=true"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Makefile 
+\end_layout
+
+\begin_layout Plain Layout
+
+version=v8
+\end_layout
+
+\begin_layout Plain Layout
+
+srcroot=gen_blockMeshToFile-$(version)
+\end_layout
+
+\begin_layout Plain Layout
+
+cxx=g++
+\end_layout
+
+\begin_layout Plain Layout
+
+# CXX = c++ compiler
+\end_layout
+
+\begin_layout Plain Layout
+
+# cxx=icpc
+\end_layout
+
+\begin_layout Plain Layout
+
+#
+\end_layout
+
+\begin_layout Plain Layout
+
+gbm:
+\end_layout
+
+\begin_layout Plain Layout
+
+	$(cxx) $(srcroot).cpp -o $(srcroot).x
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+hollow:
+\end_layout
+
+\begin_layout Plain Layout
+
+	cp -f blockMesh.param.default blockMesh.param
+\end_layout
+
+\begin_layout Plain Layout
+
+	sed -i 's/cylinderType/H/' blockMesh.param $(srcroot).x
+\end_layout
+
+\begin_layout Plain Layout
+
+	cp blockMeshDict_hollow 
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		./stem_hollow/stem_hollow/system/blockMeshDict
+\end_layout
+
+\begin_layout Plain Layout
+
+	cd ./stem_hollow/stem_hollow && blockMesh
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+filled:
+\end_layout
+
+\begin_layout Plain Layout
+
+	cp -f blockMesh.param.default blockMesh.param
+\end_layout
+
+\begin_layout Plain Layout
+
+	sed -i 's/cylinderType/F/' blockMesh.param $(srcroot).x
+\end_layout
+
+\begin_layout Plain Layout
+
+	cp blockMeshDict_filled 
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		./stem_filled/stem_filled/system/blockMeshDict
+\end_layout
+
+\begin_layout Plain Layout
+
+	cd ./stem_filled/stem_filled && blockMesh
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+MATLAB Script to calculate 
+\family typewriter
+alphaU
+\end_layout
+
+\begin_layout Standard
+The following script and associated text files were used to produce 
+\family typewriter
+AlphaU
+\family default
+ datasets for each simulation time step.
+ This MATLAB script was initially used until modifications were made directly
+ in the OpenFOAM script to automatically calculate 
+\family typewriter
+alphaU
+\family default
+.
+ As seen in the README.txt section, there are variables within the matlab
+ script that will need to be changed depending on the OpenFOAM case and
+ mesh size.
+\end_layout
+
+\begin_layout Section*
+AlphaU.m
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Matlab,numbers=left,basicstyle={\ttfamily},breaklines=true,showspaces=true"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% Create Alpha-U Data Set
+\end_layout
+
+\begin_layout Plain Layout
+
+% Date Created: September 7, 2019
+\end_layout
+
+\begin_layout Plain Layout
+
+% Last Updated: September 12, 2019
+\end_layout
+
+\begin_layout Plain Layout
+
+% Created by: Tyler Tsuchida % Document Name: CreateAlphaU.m
+\end_layout
+
+\begin_layout Plain Layout
+
+% Location: /home/student/Documents/TylerTsuchida/TylerTsuchidaThesis/
+\end_layout
+
+\begin_layout Plain Layout
+
+% Description: This script is to create a new dataset, alphaU, for every
+ timestep in an openFOAM simulation
+\end_layout
+
+\begin_layout Plain Layout
+
+%% Read alpha.water and U values from time-step file
+\end_layout
+
+\begin_layout Plain Layout
+
+%Some lines beyond this point may need revision
+\end_layout
+
+\begin_layout Plain Layout
+
+num_point_rows=136500; %number of data points within mesh -- given after
+ U or alphawater header
+\end_layout
+
+\begin_layout Plain Layout
+
+num_boundary_rows=10500; %number of data points at boundaries -- given after
+ boundary conditions are stated at end of U or alphawater
+\end_layout
+
+\begin_layout Plain Layout
+
+num_headerlines=22; %number of lines from line 1 of code to line before
+ mes data is written
+\end_layout
+
+\begin_layout Plain Layout
+
+num_boundarylines=5340528; %number of lines from line 1 of code to line
+ before boundary data is written
+\end_layout
+
+\begin_layout Plain Layout
+
+folder=3; %the next line of code lists all folders in your simulation directory,
+ to skip invisible folders,
+\end_layout
+
+\begin_layout Plain Layout
+
+folder=1st time step folder on list
+\end_layout
+
+\begin_layout Plain Layout
+
+timestep=dir('/media/student/Elements/2019-10-25-Coarse/cavity_cFE_coarse0/cavit
+y_cFE_coarse0'); %insert directory with all timesteps here
+\end_layout
+
+\begin_layout Plain Layout
+
+%Do not need to edit the code beyond this point
+\end_layout
+
+\begin_layout Plain Layout
+
+% ...
+\end_layout
+
+\begin_layout Plain Layout
+
+% ...
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\family typewriter
+alphaU
+\family default
+ sections
+\end_layout
+
+\begin_layout Subsection*
+alphaU_Header2.txt
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language={C++},numbers=left,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+object alphaU;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+//*************************************//
+\end_layout
+
+\begin_layout Plain Layout
+
+dimensions [0 1 -1 0 0 0 0];
+\end_layout
+
+\begin_layout Plain Layout
+
+internalField nonuniform List<vector>
+\end_layout
+
+\begin_layout Plain Layout
+
+5340000
+\end_layout
+
+\begin_layout Plain Layout
+
+(
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+alphaU_Footer1.txt
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language={[GNU]C++},numbers=left,breaklines=true"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+) ; 
+\end_layout
+
+\begin_layout Plain Layout
+
+boundaryField 
+\end_layout
+
+\begin_layout Plain Layout
+
+{  
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F00 { type noSlip; } 
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H10 { type noSlip; } 
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+        
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F36 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F46 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ merged_LEFT_inn_F40 { type flowRateInletVelocity; volumetricFlowRate constant
+ 0.0075; extrapolateProfile false; value uniform (0.3197619 -0 -0); }
+\end_layout
+
+\begin_layout Plain Layout
+
+ merged_RGHT_btm_F90 { type pressureInletOutletVelocity; value nonuniform
+ List<vector> 10500 ( 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language={C++},basicstyle={\ttfamily},breaklines=true"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+;
+\end_layout
+
+\begin_layout Plain Layout
+
+boundaryField
+\end_layout
+
+\begin_layout Plain Layout
+
+{ 
+\end_layout
+
+\begin_layout Plain Layout
+
+DOWN_btm_F00 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+DOWN_btm_H10 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H10 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F20 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H30 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H30 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F40 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H50 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H50 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F60 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H01 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H01 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F11 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H21 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H21 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F31 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H41 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H41 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F51 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H61 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H61 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F02 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H12 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H12 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F22 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H32 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H32 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F42 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H52 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H52 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F62 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H03 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H03 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F13 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H23 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H23 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F33 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H43 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H43 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F53 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H63 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H63 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F04 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H14 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H14 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F24 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H34 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H34 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F44 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H54 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H54 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F64 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H05 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H05 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F15 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H25 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H25 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F35 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H45 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H45 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F55 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H65 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H65 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F06 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H16 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H16 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F26 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H36 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H36 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F46 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_H56 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ HOLE_btm_H56 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F66 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F70 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F80 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F90 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F71 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F81 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F91 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F72 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F82 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F92 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F73 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F83 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F93 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F74 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F84 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F94 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F75 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F85 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F95 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F76 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F86 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_btm_F96 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F10 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F20 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F30 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F40 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F11 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F21 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F31 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F41 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F12 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F22 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F32 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F42 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F13 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F23 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F33 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F43 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F14 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F24 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F34 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F44 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F15 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F25 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F35 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F45 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F16 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F26 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F36 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ DOWN_inn_F46 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+ merged_LEFT_inn_F40 { type flowRateInletVelocity; volumetricFlowRate constant
+ 0.0075; extrapolateProfile false; value uniform (0.3197619 -0 -0); }
+\end_layout
+
+\begin_layout Plain Layout
+
+ merged_RGHT_btm_F90 { type pressureInletOutletVelocity; value nonuniform
+ List<vector> 10500 (
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+alphaU_Footer2.txt
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language={C++},numbers=left,breaklines=true"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+) ; }
+\end_layout
+
+\begin_layout Plain Layout
+
+merged_FRNT_inn_F10 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+merged_FRNT_btm_F00 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+merged_BACK_inn_F16 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+merged_BACK_btm_F06 { type noSlip; }
+\end_layout
+
+\begin_layout Plain Layout
+
+merged_ATOP_inn_F46 { type zeroGradient; }
+\end_layout
+
+\begin_layout Plain Layout
+
+merged_ATOP_btm_F96 { type zeroGradient; }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+// *************************************//
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+README.txt
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "numbers=left,breaklines=true"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Sources for data files:
+\end_layout
+
+\begin_layout Plain Layout
+
+alphaU_generator.zip
+\end_layout
+
+\begin_layout Plain Layout
+
+alphaU_generator:
+\end_layout
+
+\begin_layout Plain Layout
+
+alphaU_Footer1.txt alphaU_Footer2.txt alphaU_Header2.txt calc_alphaU.m README.txt
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+All files listed above must be in the directory of all timestep folders
+ for calc_alphaU.m to run properly.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+Enter directory and other information in calc_alphaU.m as needed to match
+ information of the desired run.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Symmetry Boundary Condition Shear Calculations
+\end_layout
+
+\begin_layout Standard
+Along with the shear rate calculations presented in the paper, calculations
+ were also performed on the fine, medium, and coarse meshes using 
+\family typewriter
+cyclic
+\family default
+ boundary conditions.
+ Also, shear rates of the checkerboard were also calculated as supplementary
+ information.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="7">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="right" valignment="top">
+<column alignment="right" valignment="top">
+<column alignment="right" valignment="top">
+<column alignment="right" valignment="top">
+<column alignment="right" valignment="top">
+<column alignment="right" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Face Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\frac{∂(αU_{x})}{∂x}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\frac{∂(αU_{x})}{∂y}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\frac{∂(αU_{x})}{∂z}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\frac{∂(αU_{y})}{∂x}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\frac{∂(αU_{y})}{∂y}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\frac{∂(αU_{y})}{∂z}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+DOWN_Eab_merged
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+2.64E-02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+6.91E-09
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+3.90E+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+HOLE_Eab
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+-1.49E-02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.12E-07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+-6.66E-11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+HOLE_Eab
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+-1.01E-07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.81E-02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+8.54E-11
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+inlet
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.07E-03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.00E+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+0.00E+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+outlet
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.07E-03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1.13E-09
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+-2.57E-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Calculations of shear rate [1/s] using the fine mesh at time = 3.00s with
+ front and back faces (
+\family typewriter
+cyclic
+\family default
+).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tbl:fine_mesh_shear_rate"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Section
+Alternative Canopy Orientations
+\end_layout
+
+\begin_layout Standard
+The following figures shows alternative configurations of 24 stems embedded
+ on the bed surface.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+(a)
+\begin_inset Graphics
+	filename Figures/0000000_XY.png
+	lyxscale 30
+	width 6in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+(b)
+\begin_inset Graphics
+	filename Figures/0000000_3D.png
+	lyxscale 30
+	width 6in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+0-0-0-0-0-0-0 stem orientation (a)2D and (3) 3D plot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
