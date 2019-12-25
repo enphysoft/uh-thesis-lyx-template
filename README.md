@@ -25,9 +25,9 @@ In bst directory, there are specially developed bibstyle file (.bst), which can 
 In Figures directory, all the figures are separately stored, which are included in the file pdf. 
 
 ## Resources
-- Lyx: LaTex-based WYSIWIM (What You See Is What You Mean) editor
- -- Introduction to Latex and Lyx: Part 1, 2, 3, 4, and 5
-- - - https://www.youtube.com/watch?v=m4cEAVmLegg&feature=youtu.be
+### Lyx: LaTex-based WYSIWIM (What You See Is What You Mean) editor
+#### Introduction to Latex and Lyx: Part 1, 2, 3, 4, and 5
+- https://www.youtube.com/watch?v=m4cEAVmLegg&feature=youtu.be
 
 LaTex
 MacTex (download)
