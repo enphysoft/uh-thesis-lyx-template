@@ -24,4 +24,26 @@ In bst directory, there are specially developed bibstyle file (.bst), which can 
 
 In Figures directory, all the figures are separately stored, which are included in the file pdf. 
 
+## Resources
+- Lyx: LaTex-based WYSIWIM (What You See Is What You Mean) editor
+Introduction to Latex and Lyx: Part 1, 2, 3, 4, and 5
+https://www.youtube.com/watch?v=m4cEAVmLegg&feature=youtu.be
 
+LaTex
+MacTex (download)
+MikTex (download): LaTex/Tex for Windows
+Editor for LaTex: TEXnic Center (Win), WinEdt (Win), TeXShop (Mac)
+Getting Stared with LaTex
+Computer Science, Cornell University
+Mathematics Department, Elon University
+Bibliography library: Natbib
+Roger’s online equation editor
+Templates for
+REVTex: Macro-packages designed to be used with LaTex2e for APS publication
+Elsevior journal publication, elsarticle class (download elsarticle.zip)
+beamer presentation (matrix), poster
+Commercial converting software by http://www.grindeq.com:
+LaTex-to-Word and
+Word-to-LaTex
+PDF Labs
+ pdftk (PDF Tool Kits): download and install, examples
