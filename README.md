@@ -7,6 +7,10 @@ The template was developed by using LaTex template (https://github.com/rbrewer/l
 ## Usage
 
 ### Layout installation
+Go to "layout" directory and read INSTALL.org.
+If you have a root authority in Linux system, you can follow the direction.
+Otherwise, include the layout as a "local layout" in Lyx program.
+
 
 ### Lyx compilation
 The main file is "uhthesis.lyx", which contains child lyx files of all other .lyx file. 
