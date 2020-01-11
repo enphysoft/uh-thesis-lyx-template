@@ -2,7 +2,7 @@
 
 This git-hub site provides an Lyx template for graduate students in the University of Hawaii. 
 The template is made as it contains minimum contents of each necessary items from Mr. Tyler Tsuchida's master thesis in 2019.  
-The template was developed by using LaTex template (https://github.com/rbrewer/latex-uhm-thesis) by Dr. Robert Brewer at Collaborative Software Development Laboratory (director: [Prof. Philip Johnson](http://www.ics.hawaii.edu/people/philip-johnson/), University of Hawaii at Manoa. 
+The template was developed by using LaTex template (https://github.com/rbrewer/latex-uhm-thesis) by Dr. Robert Brewer at Collaborative Software Development Laboratory (director: [Prof. Philip Johnson](http://www.ics.hawaii.edu/people/philip-johnson/)), [University of Hawaii at Manoa](https://manoa.hawaii.edu/). 
 
 ## Usage
 
