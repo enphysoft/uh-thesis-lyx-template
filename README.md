@@ -1,4 +1,4 @@
-# uh-thesis-lyx-template
+# University of Hawaii, [Lyx](https://www.lyx.org/) Thesis template
 
 This git-hub site provides an Lyx template for graduate students in the University of Hawaii. 
 The template is made as it contains minimum contents of each necessary items from Mr. Tyler Tsuchida's master thesis in 2019.  
