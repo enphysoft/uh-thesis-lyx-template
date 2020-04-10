@@ -1,0 +1,4 @@
+#% Do not delete the line below; configure depends on this
+# \DeclareLaTeXClass[ascelike-new]{article (ascelike-new)}
+# Input general definitions
+Input stdclass.inc
