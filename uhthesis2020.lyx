@@ -1,0 +1,1346 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass layout/uhthesis
+\begin_preamble
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+%!NOTE: This example file has been prepared according to the University of
+%!      Hawaii Style & Policy Manual for Theses and Dissertations dated
+%!      "Revised September 2010". If you have one with a later date, you may
+%!      need to make revisions to this document as well. In any event, making
+%!      sure your thesis complies with Graduate Education guidelines is
+%!      ultimately your responsibility. Caveat LaTeXtor. :)
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+%% The options are (you can only choose one from each group):
+%%
+%% 10pt, 11pt, 12pt: chooses the point size for the document. "11pt" is the
+%%                   default.
+%%
+%% oneside, twoside: whether you want your document onesided or twosided. Note
+%%                   that twosided is not guaranteed to work, and style
+%%                   guidelines prohibit double sided printouts on final
+%%                   copy. "oneside" is the default.
+%%
+%% draft, final: when printing drafts you can save a lot of paper by using the
+%%               "draft" option. It switches to single spacing, displays overful
+%%               hboxes with a black box, prints a version number on title page 
+%%               and omits signature page. Of course for the final copy make
+%%               sure to use the "final" option! "final" is the default.
+%%
+%% thesis, dissertation: switches between the style for a master's thesis and a 
+%%                       Ph.D. dissertation. The differences are fairly minor
+%%                       and limited to the front matter. "thesis" is the
+%%                       default.
+%%
+%% actual, proposal: switches between actual document and proposal mode. In
+%%                   proposal mode: the title page is simplified and the
+%%                   version number is always printed.
+%%
+%%% Load the new uhthesis document class
+
+
+%%% Load some useful packages:
+%% New LaTeX2e graphics support
+%% Package to linebreak URLs in a sane manner.
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage[titletoc,title]{appendix}
+\usepackage{emptypage}
+\usepackage{lastpage} 
+\usepackage{afterpage}
+
+\versionnum{4.0.0}
+
+%%% End of preamble
+\end_preamble
+\options openany
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type numerical
+\biblio_style plainnat
+\biblio_options sort&compress
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1.5in
+\topmargin 1.25in
+\rightmargin 1.5in
+\bottommargin 1.25in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Computational Fluid Dynamics Simulations of Overflow Patterns in Utility-C
+hamber and Hydrodynamic Stresses in Vegetation Zone} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{(FirstName MiddleName LastName)} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+degreemonth{(Degree-AwardedMonth)} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+degreeyear{(Degree-Awarded Year)} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+degree{(Master of Science)} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+chair{(Full Name)} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+othermembers{
+\end_layout
+
+\begin_layout Plain Layout
+
+(Committee Member No 1 FullName)
+\backslash
+
+\backslash
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+(Committee Member No 2 FullName)
+\backslash
+
+\backslash
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+(Committee Member No 3 FullName)
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+field{(Civil and Environmental Engineering)} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+keywords{(keyword-1, keyword-2, keyword-3, ...
+ )} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frontmatter}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Create the copyright page (optional)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+copyrightpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Bring in the dedication page from external file (optional)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "my_dedication.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\backslash
+null 
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Bring in the acknowledgments section from external file (optional)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "my_acknowledgments.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\backslash
+null 
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Bring in the abstract section from external file
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "my_abstract.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Generate table of contents
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak  %
+\backslash
+null 
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak %
+\backslash
+null 
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Generate list of tables
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\backslash
+null 
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Generate list of figures
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\backslash
+null 
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
+set_width "none"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing onehalf
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "{$U$}"
+description "flow speed"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "C"
+symbol "pHP"
+description "\\texttt{phaseHydrostaticPressure}"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "c"
+symbol "pIOV"
+description "\\texttt{pressureInletOutletVelocity}"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "C"
+symbol "tIKEI"
+description "\\texttt{turbulentIntensityKineticEnergyInlet}"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "C"
+symbol "tMLDRI"
+description "\\texttt{turbulentMixingLengthDissipationRateInlet}"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "C"
+symbol "BC"
+description "boundary condition"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "C"
+symbol "CFD"
+description "computational fluid dynamics"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{U}$"
+description "flow vector"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "${p}$"
+description "pressure"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$Q_\\mathrm{in}$"
+description "inflow rate [mgd] or [tons/s]"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$f_\\mathrm{b}$"
+description "body force term"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$V_\\mathrm{ic}$"
+description "initial volume in chamber"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "${L}$"
+description "chamber length"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "${S}$"
+description "inter-stem spacing"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "${T}$"
+description "stress tensor"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "${H}$"
+description "chamber height"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "${h}$"
+description "stem height"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "${W}$"
+description "chamber width"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$D_\\mathrm{o}$"
+description "outlet diameter"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$D_\\mathrm{s}$"
+description "stem diameter"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$D_\\mathrm{i}$"
+description "inlet diameter"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$n_\\mathrm{x}$, $n_\\mathrm{y}$,   $n_\\mathrm{z}$"
+description "mesh division numbers in $x$, $y$, and $z$ directions, respectively"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "G"
+symbol "$\\rho$"
+description "density"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "G"
+symbol "$\\theta$"
+description "channel gradient"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "G"
+symbol "$\\tau$"
+description "shear stress"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "G"
+symbol "$\\alpha$"
+description "fluid volume fraction"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "G"
+symbol "$\\lambda$"
+description "stem occupancy fraction"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "G"
+symbol "$\\nu$"
+description "kinematic viscosity"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "G"
+symbol "$\\nu_t$"
+description "turbulent kinematic viscosity"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$t_\\mathrm{ss}$"
+description "time to reach a steady state"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$t_\\mathrm{sm}$"
+description "time occuring the first submerging of outlet pipe"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$h_\\mathrm{ss}$"
+description "sewage level in a steady state"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "S"
+symbol "$\\mathrm{ic}$"
+description "inside the chamber"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "S"
+symbol "$\\mathrm{1}$"
+description "water phase"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "S"
+symbol "$\\mathrm{0}$"
+description "air phase"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "S"
+symbol "$\\mathrm{b}$"
+description "body"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{m}$"
+description "meter"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{mm}$"
+description "millimeter"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{cm}$"
+description "centimeter"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{m/s}$"
+description "meter per second"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{ft}$"
+description "foot"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{in}$"
+description "inch"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{ft/s}$"
+description "foot per second"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{gal}$"
+description "gallon"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{s}$"
+description "second"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "Z"
+symbol "$\\bm{mgd}$"
+description "million gallons per day"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\backslash
+newpage 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frontmatter}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "Chapter1_Introduction.lyx"
+
+\end_inset
+
+ s
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "Chapter2_ManholeCFD.lyx"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\backslash
+null 
+\backslash
+newpage 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "Chapter3_CanopyCFD.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak 
+\backslash
+newpage 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "Chapter4_Conclusion.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagebreak
+\backslash
+null 
+\backslash
+newpage 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\start_of_appendix
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%% Switch to appendix mode
+\end_layout
+
+\begin_layout Plain Layout
+
+%%% Bring in any appendices from external file (optional)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "my_appendix.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% Just for demo purposes, include all entries from bib file
+\end_layout
+
+\begin_layout Plain Layout
+
+%%% Input file for bibliography
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bib/cepl-ref-doi,bib/ShearStressPapers,bib/01_VegetationLayers,bib/02_PracticalImportance,bib/03_DragandRunoff,bib/04_ProblemStatement,bib/AugustCanopyThesis,bib/vegetation_pof,bib/King,bib/LID"
+options "unsrt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% Use this for an alphabetically organized bibliography
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+bibliographystyle{plain}
+\end_layout
+
+\begin_layout Plain Layout
+
+%% Use this for a reference order organized bibliography
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+bibliographystyle{unsrt}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
