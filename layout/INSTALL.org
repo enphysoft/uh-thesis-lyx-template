@@ -29,6 +29,11 @@ In Mac, execute the following commands in terminal:
 /Applications/LyX.app/Contents/Resources/layouts
 #+end_src
 #
+In Windows 10
+Install Lyx with MikTex, copy "uhthesis.cls" into 
+C:\Program Files\MiKTeX 2.9\tex\latex\ctex
+and recompile your lyx file to generate a pdf file. 
+#
 ** Lyx reconfigure
 1. Open Lyx, go to  "Tools" and click "Reconfigure". And, restart Lyx.
 2. Open uhthesis.lyx and delete: ERT: %\bibliographystyle{plain}
